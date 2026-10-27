@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carrinho — Orbit Store</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">ORBIT</a>
+    <nav>
+      <a href="index.html#produtos">Produtos</a>
+      <a href="carrinho.html">Carrinho</a>
+    </nav>
+  </header>
+
+  <main class="conteudo">
+    <h1>Carrinho</h1>
+    <div id="itens"></div>
+    <div id="resumo"></div>
+  </main>
+
+  <script src="js/produtos.js"></script>
+  <script src="js/carrinho-store.js"></script>
+  <!-- A calculadora da Etapa 1 -->
+  <script src="js/CalculadoraDescontoTradicional.js"></script>
+  <script>
+    const calculadora = new CalculadoraDescontoTradicional();
+    const elItens = document.getElementById("itens");
+    const elResumo = document.getElementById("resumo");
+    let clienteVip = false; // estado do checkbox VIP
+
+    function render() {
+      const itens = Carrinho.listar();
+
+      elItens.innerHTML = itens.map((i) => `
+        <div class="item">
+          <div>${i.nome}<br><small style="color:var(--muted)">${formatarBRL(i.preco)}</small></div>
+          <div class="qtd">
+            <button data-acao="menos" data-id="${i.id}">−</button>
+            <span>${i.qtd}</span>
+            <button data-acao="mais" data-id="${i.id}">+</button>
+          </div>
+          <div>${formatarBRL(i.preco * i.qtd)}</div>
+          <button class="remover" data-acao="remover" data-id="${i.id}">Remover</button>
+        </div>`).join("");
+
+      // Carrinho vazio -> subtotal 0 -> calculadora lança exceção.
+      // A tela captura (try/catch) e mostra mensagem amigável em vez de quebrar.
+      try {
+        const d = calculadora.detalhar(Carrinho.subtotal(), clienteVip);
+        const descontoFaixa = d.subtotal * d.percentualDesconto;
+        const descontoVip = d.subtotal - descontoFaixa - d.valorAposDescontos > 0.005
+          ? d.subtotal - descontoFaixa - d.valorAposDescontos : 0;
+
+        elResumo.innerHTML = `
+          <div class="resumo">
+            <div class="linha"><span>Subtotal</span><span>${formatarBRL(d.subtotal)}</span></div>
+            ${d.percentualDesconto ? `<div class="linha desc"><span>Desconto ${d.percentualDesconto * 100}%</span><span>− ${formatarBRL(descontoFaixa)}</span></div>` : ""}
+            ${clienteVip ? `<div class="linha desc"><span>Desconto VIP 5%</span><span>− ${formatarBRL(descontoVip)}</span></div>` : ""}
+            <div class="linha"><span>Frete</span><span>${d.frete ? formatarBRL(d.frete) : "Grátis"}</span></div>
+            <label class="vip"><input type="checkbox" id="vip" ${clienteVip ? "checked" : ""}> Sou cliente VIP</label>
+            <div class="linha total"><span>Total</span><span>${formatarBRL(d.total)}</span></div>
+          </div>`;
+      } catch (erro) {
+        elResumo.innerHTML = `<p class="vazio">Seu carrinho está vazio. <a href="index.html#produtos" style="text-decoration:underline">Ver produtos</a></p>`;
+      }
+    }
+
+    elItens.addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-acao]");
+      if (!b) return;
+      const id = Number(b.dataset.id);
+      if (b.dataset.acao === "mais") Carrinho.alterarQtd(id, 1);
+      if (b.dataset.acao === "menos") Carrinho.alterarQtd(id, -1);
+      if (b.dataset.acao === "remover") Carrinho.remover(id);
+      render();
+    });
+
+    // O checkbox é recriado a cada render, então escutamos no container
+    elResumo.addEventListener("change", (e) => {
+      if (e.target.id === "vip") { clienteVip = e.target.checked; render(); }
+    });
+
+    render();
+  </script>
+</body>
+</html>
