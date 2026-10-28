@@ -1,0 +1,24 @@
+{
+  "name": "tdd_e_bdd",
+  "version": "1.0.0",
+  "description": "TDD (Test-Driven Development)",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Matheus21647/TDD_e_BDD.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Matheus21647/TDD_e_BDD/issues"
+  },
+  "homepage": "https://github.com/Matheus21647/TDD_e_BDD#readme",
+  "devDependencies": {
+    "jest": "^30.5.2"
+  }
+}
