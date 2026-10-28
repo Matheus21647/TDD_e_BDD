@@ -1,0 +1,101 @@
+
+:root {
+  --bg: #000;
+  --fg: #f0f0fa;
+  --muted: #8b8f99;
+  --line: rgba(240, 240, 250, 0.35);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ---------- Cabeçalho ---------- */
+header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 24px 5vw;
+  background: linear-gradient(#000a, transparent);
+}
+.logo { font-weight: 700; font-size: 20px; letter-spacing: 0.4em; }
+nav { display: flex; gap: 32px; }
+nav a { font-weight: 700; font-size: 12px; padding-bottom: 4px; border-bottom: 1px solid transparent; }
+nav a:hover { border-color: var(--fg); }
+
+/* ---------- Hero ---------- */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0 5vw 12vh;
+  background:
+    radial-gradient(ellipse at 75% 30%, #2a3550 0%, transparent 45%),
+    radial-gradient(ellipse at 20% 80%, #1a1a24 0%, transparent 50%),
+    #000;
+}
+.hero h1 { font-size: clamp(36px, 7vw, 88px); font-weight: 700; letter-spacing: 0.15em; line-height: 1.1; }
+.hero p { margin: 16px 0 32px; color: var(--muted); }
+
+/* ---------- Botões ---------- */
+.btn {
+  display: inline-block;
+  padding: 14px 36px;
+  border: 1px solid var(--line);
+  background: transparent; color: var(--fg);
+  font: 700 12px "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  cursor: pointer; transition: all 0.25s;
+}
+.btn:hover { background: var(--fg); color: #000; }
+.btn.ok { background: var(--fg); color: #000; }
+
+/* ---------- Produtos ---------- */
+section.produtos { padding: 12vh 5vw; }
+h2 { font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 40px; }
+
+.grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.card { background: #000; padding: 28px; display: flex; flex-direction: column; gap: 10px; }
+.card .img {
+  aspect-ratio: 4 / 3; margin-bottom: 12px;
+  background: radial-gradient(circle at 70% 30%, #39435f, #0b0b10 70%);
+  display: grid; place-items: center;
+  font-size: 56px; font-weight: 700; color: #ffffff22;
+}
+.card small { color: var(--muted); font-size: 11px; }
+.card h3 { font-size: 16px; font-weight: 700; }
+.card .preco { font-size: 18px; margin-bottom: 12px; }
+.card .btn { margin-top: auto; text-align: center; }
+
+/* ---------- Carrinho ---------- */
+main.conteudo { padding: 140px 5vw 10vh; max-width: 1000px; margin: 0 auto; }
+main.conteudo h1 { font-size: 32px; letter-spacing: 0.2em; margin-bottom: 40px; }
+
+.item { display: grid; grid-template-columns: 1fr auto auto auto; gap: 24px; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.qtd { display: flex; align-items: center; gap: 12px; }
+.qtd button { width: 28px; height: 28px; background: none; border: 1px solid var(--line); color: var(--fg); cursor: pointer; }
+.qtd button:hover { background: var(--fg); color: #000; }
+.remover { background: none; border: none; color: var(--muted); cursor: pointer; font: inherit; letter-spacing: inherit; text-transform: inherit; }
+.remover:hover { color: var(--fg); }
+
+.resumo { margin-top: 48px; border: 1px solid var(--line); padding: 32px; }
+.linha { display: flex; justify-content: space-between; padding: 8px 0; }
+.linha.desc { color: #7fd6a0; }
+.linha.total { border-top: 1px solid var(--line); margin-top: 12px; padding-top: 20px; font-size: 20px; font-weight: 700; }
+.vip { display: flex; gap: 12px; align-items: center; margin: 24px 0; cursor: pointer; }
+.vip input { accent-color: #fff; width: 16px; height: 16px; }
+.erro { color: #ff8a8a; padding: 16px 0; }
+.vazio { color: var(--muted); padding: 40px 0; }
+
+@media (max-width: 640px) {
+  nav { gap: 16px; }
+  .item { grid-template-columns: 1fr auto; }
+}

@@ -17,7 +17,7 @@
 
   <div class="hero">
     <h1>Loja<br>Orbit</h1>
-    <p>Equipamentos para quem olha para as estrelas</p>
+    <p>Componentes eletrônicos</p>
     <div><a href="#produtos" class="btn">Ver produtos</a></div>
   </div>
 
@@ -35,7 +35,9 @@
     //cards 
     grade.innerHTML = PRODUTOS.map((p) => `
       <article class="card">
-        <div class="img">${p.nome[0]}</div>
+        <div class="img-container">
+            <img src="${p.imagem}" alt="${p.nome}" class="produto-img">
+        </div>
         <small>${p.categoria}</small>
         <h3>${p.nome}</h3>
         <div class="preco">${formatarBRL(p.preco)}</div>
